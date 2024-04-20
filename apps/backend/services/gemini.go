@@ -20,7 +20,7 @@ func init() {
 	if env_err != nil {
 		panic(env_err) // Handle error appropriately (e.g., log the error and exit)
 	}
-	apiKey := os.Getenv("GEMINI_API_KEY")
+	apiKey := os.Getenv("NEXT_PUBLIC_GEMINI_API_KEY")
 	if apiKey == "" {
 		panic("Missing API key")
 	}
