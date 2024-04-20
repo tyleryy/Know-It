@@ -33,5 +33,6 @@ func init() {
 }
 
 func GetModel(model string) (context.Context, *genai.GenerativeModel) {
+
 	return ctx, client.GenerativeModel(model)
 }

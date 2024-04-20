@@ -8,7 +8,6 @@ import (
 
 func main() {
 	router := gin.Default()
-
 	router.POST("/api/upload/text/:roomId/:count", upload.HandleTextUpload)
 
 	router.POST("/api/upload/file/:roomId/:count", upload.HandleFileUpload)
