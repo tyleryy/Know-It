@@ -1,13 +1,17 @@
 package main
 
 import (
-	"backend/api/questions"
+	"backend/api/upload"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.Default()
-	router.GET("/api/questions/generate", questions.GenerateQuestions)
+
+	router.POST("/api/upload/text", upload.HandleTextUpload)
+
+	router.POST("/api/upload/file", upload.HandleFileUpload)
+
 	router.Run()
 }
