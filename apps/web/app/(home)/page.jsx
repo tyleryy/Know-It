@@ -1,4 +1,4 @@
-import { createClient } from "../utils/supabase/server";
+import { createClient } from "../../utils/supabase/server";
 
 export default async function Page() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
