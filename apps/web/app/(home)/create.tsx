@@ -1,4 +1,7 @@
 "use client";
+import React, { useState } from "react";
+import { navigateToSelection } from './actions'
+
 
 function generateRandomCode(length: number): string {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -11,17 +14,18 @@ function generateRandomCode(length: number): string {
 }
 
 const CreateModal = () => {
-  const code = generateRandomCode(5);
+  const [code, setCode] = useState("");
 
   return (
     <>
       <button
         className="btn w-36 text-xl"
-        onClick={() =>
+        onClick={() => {
           (
             document.getElementById("my_modal_2") as HTMLDialogElement
-          ).showModal()
-        }
+          ).showModal();
+          setCode(generateRandomCode(5));
+        }}
       >
         <svg
           width="33"
@@ -44,7 +48,7 @@ const CreateModal = () => {
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-success w-32 text-base text-white">
+              <button className="btn btn-success w-32 text-base text-white" formAction={() => navigateToSelection(code)}>
                 Continue
               </button>
             </form>

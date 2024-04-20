@@ -1,6 +1,11 @@
 "use client";
+import React, { useState } from "react";
+import { navigateToSelection } from './actions'
+
 
 const JoinModal = () => {
+  const [code, setCode] = useState("");
+
   return (
     <>
       <button
@@ -32,11 +37,14 @@ const JoinModal = () => {
             type="text"
             placeholder="Ex: 123456"
             className="input input-bordered w-full max-w-xs mt-5"
+            onChange={(e) => setCode(e.target.value)}
           />
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-success w-32 text-base text-white">Join</button>
+              <button className="btn btn-success w-32 text-base text-white" formAction={() => navigateToSelection(code)}>
+                Join
+              </button>
             </form>
           </div>
         </div>
