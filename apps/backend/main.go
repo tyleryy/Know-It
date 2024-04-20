@@ -1,10 +1,13 @@
 package main
 
-import "net/http"
+import (
+	"backend/api/questions"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
-	http.HandleFunc("/hello-world", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hello world!"))
-	})
-	http.ListenAndServe(":8080", nil)
+	router := gin.Default()
+	router.GET("/api/questions/generate", questions.GenerateQuestions)
+	router.Run()
 }
