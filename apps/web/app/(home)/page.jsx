@@ -17,7 +17,7 @@ export default async function Page() {
   const { data: users } = await supabase.from("Users").select("");
 
   return (
-    <main className="flex justify-center items-center bg-primary w-screen h-screen bg-purple-200">
+    <form className="flex justify-center items-center bg-primary w-screen h-screen bg-purple-200">
       {/* <h1 className="text-3xl font-bold underline text-red-700">
         Hello world!
       </h1>
@@ -27,6 +27,7 @@ export default async function Page() {
       <div className="flex w-auto text-center gap-5 flex-col justify-center items-center">
         <h1 className="text-7xl	font-bold">Know-It!</h1>
         <input
+          id="code"
           className="input input-bordered w-56 max-w-xs text-xl"
           placeholder="Enter Code"
         ></input>
@@ -63,6 +64,6 @@ export default async function Page() {
           </button>
         </div>
       </div>
-    </main>
+    </form>
   );
 }
