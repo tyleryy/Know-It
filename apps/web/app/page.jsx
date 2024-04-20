@@ -1,4 +1,5 @@
 "use client";
+// TODO make this not a client component
 import Image from "next/image";
 import { Card } from "@repo/ui/card";
 import { Code } from "@repo/ui/code";
