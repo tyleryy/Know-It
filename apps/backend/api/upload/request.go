@@ -2,7 +2,6 @@ package upload
 
 import "github.com/gin-gonic/gin"
 
-type UploadPdfRequest struct {
+type UploadFileRequest struct {
 	File gin.H `json:"file"`
 }
-
