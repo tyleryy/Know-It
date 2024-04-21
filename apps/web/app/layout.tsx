@@ -19,8 +19,8 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en" className="bg-purple-200 text-black">
-      <Suspense fallback={<Loading/>}>
-      <body className={twMerge(nunito.className)}>{children}</body>
+      <Suspense fallback={<Loading />}>
+        <body className={twMerge(nunito.className)}>{children}</body>
       </Suspense>
     </html>
   );

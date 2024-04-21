@@ -1,15 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import { navigateToSelection } from './actions'
+import { navigateToSelection } from "./actions";
 
-
-const JoinModal = () => {
+const JoinModal = ({ displayName }: any) => {
   const [code, setCode] = useState("");
 
   return (
     <>
       <button
-        className="btn w-36 text-xl"
+        className="btn btn-lg text-5xl text-white border-2 border-white"
         onClick={() =>
           (
             document.getElementById("my_modal_1") as HTMLDialogElement
@@ -42,7 +41,10 @@ const JoinModal = () => {
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-success w-32 text-base text-white" formAction={() => navigateToSelection(code)}>
+              <button
+                className="btn btn-success w-32 text-base text-white"
+                formAction={() => navigateToSelection(code)}
+              >
                 Join
               </button>
             </form>
