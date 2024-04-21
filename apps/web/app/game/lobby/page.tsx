@@ -27,9 +27,9 @@ export default LobbyPage;
 const FileUpload = () => {
   const [files, setFiles] = useState<any>([]);
 
-  useEffect(() => {
-    console.log(files);
-  });
+  // useEffect(() => {
+  //   console.log(files);
+  // });
 
   const handleUpload = async () => {
     setFiles([...files, uploadFile]);
