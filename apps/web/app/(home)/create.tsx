@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { navigateToSelection } from "./actions";
+import { navigateToSelection, navigateToRoomSetting } from "./actions";
 import { createClient } from "../../utils/supabase/client";
 
 function generateRandomCode(length: number): string {
@@ -34,7 +34,7 @@ const CreateModal = ({ displayName }: any) => {
       alert("Error creating room");
       return;
     }
-    navigateToSelection(code, displayName);
+    navigateToRoomSetting(code, displayName);
   }
 
   return (

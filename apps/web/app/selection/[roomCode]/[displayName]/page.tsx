@@ -6,7 +6,7 @@ import CatStamp from "../../../../assets/CatStamp.svg";
 import PenguinStamp from "../../../../assets/PenguinStamp.svg";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { navigateToRoomSetting, navigateToWaitingRoom } from "./actions";
+import { navigateToLobby } from "./actions";
 import { createClient } from "../../../../utils/supabase/client";
 
 interface PageProps {
@@ -49,12 +49,7 @@ const NameSelectionPage = ({ params }: PageProps) => {
       return;
     }
 
-    if (host === params.displayName) {
-      navigateToRoomSetting(params.roomCode, params.displayName);
-      return;
-    } else {
-      navigateToWaitingRoom(params.roomCode, params.displayName);
-    }
+    navigateToLobby(params.roomCode, params.displayName);
   };
 
   return (

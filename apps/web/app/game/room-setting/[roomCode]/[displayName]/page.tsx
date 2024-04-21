@@ -2,11 +2,35 @@
 
 import { useState } from "react";
 import ReadyButton from "./ReadyButton";
+import { createClient } from "../../../../../utils/supabase/client";
+import { navigateToSelection } from "./actions";
 
-const RoomSetting = () => {
+interface PageProps {
+  params: any;
+}
+
+const RoomSetting = ({ params }: PageProps) => {
   // Initialize state with the default value 25
   const [num_Qs, setNumQs] = useState<any>(10);
   const [time, setTime] = useState<any>(10);
+
+  const supabase = createClient();
+
+  const handleClick = async () => {
+    // update players array in gameState
+    const { error } = await supabase
+      .from("Games")
+      .update({
+        max_time: time,
+        max_questions: num_Qs,
+      })
+      .eq("room_id", params.roomCode);
+    if (error) {
+      alert("Error setting room settings");
+      return;
+    }
+    navigateToSelection(params.roomCode, params.displayName);
+  };
 
   return (
     <div className="flex justify-center items-center h-screen flex-col gap-20">
@@ -57,7 +81,7 @@ const RoomSetting = () => {
           </div>
         </>
       </div>
-      <ReadyButton label="Ready" onClick={() => {}} />
+      <ReadyButton label="Ready" formAction={handleClick} />
     </div>
   );
 };
