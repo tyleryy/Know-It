@@ -1,8 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { navigateToSelection } from './actions'
+import { navigateToSelection } from "./actions";
 import { createClient } from "../../utils/supabase/client";
-
 
 function generateRandomCode(length: number): string {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -14,10 +13,24 @@ function generateRandomCode(length: number): string {
   return result;
 }
 
-const CreateModal = () => {
+const CreateModal = ({ displayName }: any) => {
   const supabase = createClient();
-  supabase.from("Games").select().then((data) => console.log(data.data))
+  supabase
+    .from("Games")
+    .select()
+    .then((data) => console.log(data.data));
   const [code, setCode] = useState("");
+
+  async function handleContinue(code: string) {
+    await supabase.from("Games").insert([
+      {
+        room_id: code,
+        host: displayName,
+        players: [{ name: displayName, avatar: "", score: 0 }],
+      },
+    ]);
+    navigateToSelection(code);
+  }
 
   return (
     <>
@@ -53,7 +66,7 @@ const CreateModal = () => {
               {/* if there is a button in form, it will close the modal */}
               <button
                 className="btn btn-success w-32 text-base text-white"
-                formAction={() => navigateToSelection(code)}
+                formAction={() => handleContinue(code)}
               >
                 Continue
               </button>

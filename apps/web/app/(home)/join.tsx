@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { navigateToSelection } from "./actions";
 
-const JoinModal = () => {
+const JoinModal = ({ displayName }: any) => {
   const [code, setCode] = useState("");
 
   return (
