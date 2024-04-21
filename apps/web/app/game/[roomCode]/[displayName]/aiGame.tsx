@@ -46,14 +46,11 @@ export default async function AiGame({ roomCode }: { roomCode: string }) {
   const [gameData, setGameData] = useState<any>([]);
   const [gameQuestions, setGameQuestions] = useState<any>([]);
 
-  console.log(gameQuestions[gameData.curr_question_index]);
-
   useEffect(() => {
     if (gameData.length === 0) return;
     setGameQuestions(gameData.questions);
   }, [gameData]);
 
-  console.log(gameData);
   async function getGameData() {
     const { data } = await supabase
       .from("Games")

@@ -33,7 +33,7 @@ export default async function Page({ params }: PageProps) {
       <div className="flex w-full h-[70vh] justify-center items-center gap-7">
         <Leaderboard roomCode={params.roomCode} />
         <AiGame roomCode={params.roomCode} />
-        <Chat />
+        <Chat roomCode={params.roomCode} displayName={params.displayName} />
       </div>
     </main>
   );

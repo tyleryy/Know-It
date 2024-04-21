@@ -3,67 +3,99 @@ import dog from "../../../../assets/avatars/dog.svg";
 import frog from "../../../../assets/avatars/frog.svg";
 import penguin from "../../../../assets/avatars/penguin.svg";
 import chicken from "../../../../assets/avatars/chicken.svg";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { createClient } from "@supabase/supabase-js";
 
-const chatMessages = [
-  {
-    id: 1,
-    room_id: 23,
-    message: "Hi there, how's it going?",
-    time: "2024-04-20 21:59:06",
-    username: "BarkRanger",
-    avatar: "dog",
-  },
-  {
-    id: 2,
-    room_id: 16,
-    message: "Hello! Long time no see.",
-    time: "2024-04-20 22:13:06",
-    username: "IceWaddler",
-    avatar: "penguin",
-  },
-  {
-    id: 3,
-    room_id: 25,
-    message: "Hey! What are you up to today?",
-    time: "2024-04-20 22:13:06",
-    username: "FeatherFan",
-    avatar: "chicken",
-  },
-  {
-    id: 4,
-    room_id: 50,
-    message: "Good morning, hope you're well!",
-    time: "2024-04-20 22:47:06",
-    username: "GreenHopper",
-    avatar: "frog",
-  },
-];
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl ?? "", supabaseKey ?? "");
 
-const avatarMap: Record<string, any> = {
-  dog: dog,
-  frog: frog,
-  penguin: penguin,
-  chicken: chicken,
-};
+export default function Chat({
+  roomCode,
+  displayName,
+}: {
+  roomCode: string;
+  displayName: string;
+}) {
+  const [gameData, setGameData] = useState<any>([]);
+  const [chats, setChats] = useState<any>([]);
+  const [inputMessage, setInputMessage] = useState(""); // State to manage the input field
 
-export default function Chat() {
+  useEffect(() => {
+    getGameData();
+    const mySubscription = supabase
+      .channel(roomCode)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "Games" },
+        (payload) => {
+          setGameData(payload.new);
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on component unmount
+    // return () => {
+    //   supabase.removeSubscription(mySubscription);
+    // };
+  }, []);
+
+  async function getGameData() {
+    const { data } = await supabase
+      .from("Games")
+      .select("*")
+      .eq("room_id", roomCode);
+    if (data && data.length > 0) {
+      setGameData(data[0]);
+      setChats(data[0].chat);
+    }
+  }
+
+  async function onSend() {
+    if (inputMessage.trim()) {
+      const updatedChats = [
+        ...chats,
+        {
+          id: chats.length + 1,
+          message: inputMessage,
+          name: displayName,
+          avatar: "chicken",
+        },
+      ];
+      await supabase
+        .from("Games")
+        .update({ chat: updatedChats })
+        .eq("room_id", roomCode);
+      setChats(updatedChats);
+      setInputMessage(""); // Clear the input field after sending
+    }
+  }
+
+  const avatarMap: { [key: string]: any } = {
+    dog: dog,
+    frog: frog,
+    penguin: penguin,
+    chicken: chicken,
+  };
+
   return (
     <div className="flex flex-col w-3/12 h-full bg-[#141C2F] rounded-lg p-3">
       <div className="flex flex-col overflow-auto	h-[80%]">
-        {chatMessages.map((chat) => (
+        {chats.map((chat: any) => (
           <div key={chat.id} className="chat chat-start">
             <div className="chat-image avatar">
               <div className="w-10 rounded-full`">
                 <Image
-                  alt={`${chat.username} avatar`}
+                  alt={`${chat.name} avatar`}
                   src={avatarMap[chat.avatar]}
                   className="w-9 h-9 rounded-full"
                 />
               </div>
             </div>
             <div className="chat-header text-[#A6ADBB]">
-              {chat.username}
+              {chat.name}
               {/* <time className="text-xs opacity-50">
                 {new Date(chat.time).toLocaleTimeString()}
               </time> */}
@@ -78,9 +110,14 @@ export default function Chat() {
         <input
           type="text"
           placeholder="Type here"
-          className="inputinput-bordered input-primary w-full max-w-xs p-3 rounded-xl"
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          className="input input-bordered input-primary w-full max-w-xs p-3 rounded-xl text-white"
         />
-        <button className="btn btn-circle bg-[#375287] items-center justify-center">
+        <button
+          className="btn btn-circle bg-[#375287] items-center justify-center"
+          onClick={onSend}
+        >
           <svg
             width="32"
             height="32"
