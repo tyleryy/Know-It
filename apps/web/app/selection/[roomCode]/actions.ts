@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
  
 export function navigateToRoomSetting(code: string) {
-  redirect(`/game/room-setting/${code}`)
+  redirect(`/game/lobby/${code}`)
 }

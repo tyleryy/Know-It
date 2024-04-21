@@ -1,13 +1,13 @@
 "use client";
-import ReadyButton from "../room-setting/ReadyButton";
+import ReadyButton from "../../room-setting/ReadyButton";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import file_img from "./file-1453.svg";
 
-import dog from "../../../assets/avatars/dog.svg";
-import frog from "../../../assets/avatars/frog.svg";
-import penguin from "../../../assets/avatars/penguin.svg";
-import chicken from "../../../assets/avatars/chicken.svg";
+import dog from "../../../../assets/avatars/dog.svg";
+import frog from "../../../../assets/avatars/frog.svg";
+import penguin from "../../../../assets/avatars/penguin.svg";
+import chicken from "../../../../assets/avatars/chicken.svg";
 
 const userConfig = [
   { name: "tyler" },
