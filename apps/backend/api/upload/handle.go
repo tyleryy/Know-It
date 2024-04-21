@@ -25,7 +25,7 @@ func HandleFileUpload(c *gin.Context) {
 	}
 
 	// imagesDir is the directory that will store images of this entire room
-	imagesDir := fmt.Sprintf(`data/%s/images/`, roomID)
+	imagesDir := fmt.Sprintf(`data/%s/images`, roomID)
 
 	// targetDir is the directory of this room for both pdf and images
 	targetDir := fmt.Sprintf(`data/%s`, roomID)

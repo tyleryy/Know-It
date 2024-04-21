@@ -2,6 +2,7 @@ package questions
 
 import (
 	"backend/services"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -10,7 +11,7 @@ import (
 	"github.com/google/generative-ai-go/genai"
 )
 
-func GenerateQuestionsFromText(count int, roomID string, resources string) *genai.GenerateContentResponse {
+func GenerateQuestionsFromText(count int, roomID string, resources string) string {
 	ctx, model := services.GetModel("gemini-pro")
 	// prompt := fmt.Sprintf(`Generate %d questions object based on the following resources: %s.
 	// Format each question as a object with fields "id"=create a new uuid for each question object, "roomId"=%s, "prompt", "answer", and "explanation". Separate each
@@ -34,17 +35,20 @@ func GenerateQuestionsFromText(count int, roomID string, resources string) *gena
 
 	response, err := model.GenerateContent(ctx, genai.Text(prompt))
 
-	// content := response.Candidates[0].Content.Parts
-	// print(content)
 	if err != nil {
 		fmt.Println("Error calling Gemini Pro:", err)
-		return nil
+		return ""
 	}
-	return response
+	jsonData, err := json.Marshal(response)
+	if err != nil {
+		log.Printf("Error marshalling data to JSON: %v\n", err)
+	}
+
+	return string(jsonData)
 }
 
 // resource will be the path to the img directory (data/33/images)
-func GenerateQuestionsFromImage(count int, roomID string, resource string) *genai.GenerateContentResponse {
+func GenerateQuestionsFromImage(count int, roomID string, resource string) string {
 	ctx, model := services.GetModel("gemini-pro-vision")
 	var images [][]byte
 
@@ -97,6 +101,12 @@ func GenerateQuestionsFromImage(count int, roomID string, resource string) *gena
 	if err != nil {
 		log.Fatal(err)
 	}
-	return response
+
+	jsonData, err := json.Marshal(response)
+	if err != nil {
+		log.Printf("Error marshalling data to JSON: %v\n", err)
+	}
+
+	return string(jsonData)
 
 }
