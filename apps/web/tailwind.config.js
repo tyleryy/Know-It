@@ -9,7 +9,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        background: "url('/assets/hero-background.webp')",
+      },
+    },
   },
   plugins: [require("daisyui")],
 };
