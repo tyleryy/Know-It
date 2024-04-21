@@ -20,7 +20,13 @@ const userConfig = [
 interface PageProps {
   params: any;
 }
-const avatarMap: any = [dog, frog, penguin, chicken];
+const avatarMap: any = {
+  dog: dog,
+  frog: frog,
+  penguin: penguin,
+  chicken: chicken,
+  cat: frog,
+};
 
 const LobbyPage = ({ params }: PageProps) => {
   const supabase = createClient();
@@ -51,11 +57,11 @@ const LobbyPage = ({ params }: PageProps) => {
 
   return (
     <>
-      <div className="flex justify-center items-center h-screen flex-col">
-        <div className="flex flex-row justify-center">
+      <div className=" flex justify-center items-center h-screen flex-col">
+        <div className="m-10 flex flex-row justify-center">
           <div className="flex flex-row gap-10">
             <div>
-              <AvatarStack users={userConfig} />
+              <AvatarStack users={gameState?.players} />
             </div>
             <div>
               <FileUpload />
@@ -85,11 +91,11 @@ export default LobbyPage;
 const AvatarStack = ({ users }: any) => {
   return (
     <>
-      {users.map((user: any, index: number) => {
+      {users?.map((user: any, index: number) => {
         return (
           <div key={user.name} className="relative -left-10">
             <Image
-              src={avatarMap[index % avatarMap.length]}
+              src={avatarMap[user.avatar]}
               alt="player avatar"
               height={100}
               width={100}
