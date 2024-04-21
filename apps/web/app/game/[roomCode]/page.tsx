@@ -23,6 +23,7 @@ export default async function Page({ params }: PageProps) {
   //   }
 
   //   const { data: users } = await supabase.from("Users").select("");
+  console.log("Room Code:", params.roomCode);
 
   return (
     <main className="flex flex-col bg-gradient-to-r from-[#19263F] to-[#495e85] justify-center items-center w-screen h-screen ">
@@ -30,7 +31,7 @@ export default async function Page({ params }: PageProps) {
         <Countdown />
       </div>
       <div className="flex w-full h-[70vh] justify-center items-center gap-7">
-        <Leaderboard />
+        <Leaderboard roomCode={params.roomCode} />
         <AiGame />
         <Chat />
       </div>
