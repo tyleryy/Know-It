@@ -4,6 +4,7 @@ import Leaderboard from "./leaderboard";
 import AiGame from "./aiGame";
 import Chat from "./chat";
 import Countdown from "./realtime-countdown";
+import React from "react";
 
 interface PageProps {
   params: any;
