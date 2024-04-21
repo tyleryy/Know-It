@@ -56,7 +56,6 @@ export default async function Leaderboard({ roomCode }: { roomCode: string }) {
     );
   }, [gameData]);
 
-  console.log(gameData);
   async function getGameData() {
     const { data } = await supabase
       .from("Games")
