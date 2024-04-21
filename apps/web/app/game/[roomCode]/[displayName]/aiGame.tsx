@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import gem from "../../../assets/gem.png";
+import gem from "../../../../assets/gem.png";
 
 const colors = [
   "bg-gradient-to-r to-[#781919] from-[#4B0808]",

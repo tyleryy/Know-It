@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
-import { createClient } from "../../../utils/supabase/server";
+import { createClient } from "../../../../utils/supabase/server";
 import Leaderboard from "./leaderboard";
 import AiGame from "./aiGame";
 import Chat from "./chat";
-import Countdown from "./countdown";
+import Countdown from "./realtime-countdown";
 
 export default async function Page() {
   //   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
