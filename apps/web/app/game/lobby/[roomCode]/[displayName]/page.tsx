@@ -33,6 +33,24 @@ const LobbyPage = ({ params }: PageProps) => {
   const [gameState, setGameState] = useState<any>(null);
   const [isHost, setIsHost] = useState(false);
 
+  // Create a function to handle inserts
+  const handleUpdates = (payload: any) => {
+    // setGameData((prev: any) => {
+    //   payload.new;
+    // });
+    setGameState(payload.new);
+  };
+
+  // Listen to inserts
+  supabase
+    .channel(params.roomCode)
+    .on(
+      "postgres_changes",
+      { event: "UPDATE", schema: "public", table: "Games" },
+      handleUpdates
+    )
+    .subscribe();
+
   useEffect(() => {
     async function fetchData() {
       const gameState: any = await supabase
