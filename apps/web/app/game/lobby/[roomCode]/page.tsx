@@ -1,5 +1,5 @@
 "use client";
-import ReadyButton from "../../room-setting/ReadyButton";
+import ReadyButton from "../../room-setting/[roomCode]/ReadyButton";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import file_img from "./file-1453.svg";
