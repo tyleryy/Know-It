@@ -23,10 +23,10 @@ function Countdown() {
       await supabase
         .from("Games")
         .select()
-        .then((data:any) => setData(data.data));
+        .then((data: any) => setData(data.data));
     fetchData();
   }, []);
-  console.log(data)
+  console.log(data);
   return (
     <>
       <div className="countdown text-6xl font-bold text-white mb-2">
@@ -38,7 +38,7 @@ function Countdown() {
           {counter}
         </span>
       </div>
-      <button
+      {/* <button
         className="btn"
         onClick={() =>
           (
@@ -47,9 +47,9 @@ function Countdown() {
         }
       >
         open modal
-      </button>
+      </button> */}
 
-      <WinModal id={"my_modal_3"} />
+      {/* <WinModal id={"my_modal_3"} /> */}
     </>
   );
 }
