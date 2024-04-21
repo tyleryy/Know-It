@@ -28,7 +28,7 @@ func GetFileContentType(file *os.File) (string, error) {
 }
 
 // in format of data/roomId/...
-// targetDir is the directory we want to store our images (data/33/images/guidebook)
+// targetDir is the directory we want to store our images for this room (data/33/images)
 // file is the current path to the pdf (data/33/application/pdf/guidebook.pdf)
 func ExtractImagesFromPDF(targetDir string, file string) {
 	log.Println("targetDir:", targetDir)
