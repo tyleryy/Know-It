@@ -12,6 +12,8 @@ interface PageProps {
 }
 
 const NameSelectionPage = ({ params }: PageProps) => {
+
+  
   return (
     <main className="flex justify-center items-center flex-col w-screen h-screen">
       <h1 className="text-7xl	font-bold">Pick Your Avatar!</h1>
