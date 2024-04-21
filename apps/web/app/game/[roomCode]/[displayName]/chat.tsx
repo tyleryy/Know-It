@@ -1,8 +1,8 @@
 "use client";
-import dog from "../../../assets/avatars/dog.svg";
-import frog from "../../../assets/avatars/frog.svg";
-import penguin from "../../../assets/avatars/penguin.svg";
-import chicken from "../../../assets/avatars/chicken.svg";
+import dog from "../../../../assets/avatars/dog.svg";
+import frog from "../../../../assets/avatars/frog.svg";
+import penguin from "../../../../assets/avatars/penguin.svg";
+import chicken from "../../../../assets/avatars/chicken.svg";
 import Image from "next/image";
 
 const chatMessages = [

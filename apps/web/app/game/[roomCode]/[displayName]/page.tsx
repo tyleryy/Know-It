@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
-import { createClient } from "../../../utils/supabase/server";
+import { createClient } from "../../../../utils/supabase/server";
 import Leaderboard from "./leaderboard";
 import AiGame from "./aiGame";
 import Chat from "./chat";
-import Countdown from "./countdown";
+import Countdown from "./realtime-countdown";
 
 interface PageProps {
   params: any;

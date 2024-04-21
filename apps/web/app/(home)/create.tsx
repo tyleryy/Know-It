@@ -15,20 +15,25 @@ function generateRandomCode(length: number): string {
 
 const CreateModal = ({ displayName }: any) => {
   const supabase = createClient();
-  supabase
-    .from("Games")
-    .select()
-    .then((data) => console.log(data.data));
+
+  // supabase
+  //   .from("Games")
+  //   .select()
+  //   .then((data) => console.log(data.data));
   const [code, setCode] = useState("");
 
   async function handleContinue(code: string) {
-    await supabase.from("Games").insert([
+    const { error } = await supabase.from("Games").insert([
       {
         room_id: code,
         host: displayName,
         players: [{ name: displayName, avatar: "", score: 0 }],
       },
     ]);
+    if (error) {
+      alert("Error creating room");
+      return;
+    }
     navigateToSelection(code);
   }
 
