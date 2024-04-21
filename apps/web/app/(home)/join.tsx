@@ -1,10 +1,36 @@
 "use client";
 import React, { useState } from "react";
 import { navigateToSelection } from "./actions";
+import { createClient } from "../../utils/supabase/client";
 
 const JoinModal = ({ displayName }: any) => {
   const [code, setCode] = useState("");
+  const supabase = createClient();
+  async function handleContinue(code: string) {
+    const gameState: any = await supabase
+      .from("Games")
+      .select("players, room_id, host")
+      .eq("room_id", code);
+    if (gameState.data.length === 0) {
+      alert("Room not found");
+      return;
+    }
+    let gameStateData = gameState.data[0];
+    gameStateData.players.push({ name: displayName, avatar: "", score: 0 });
 
+    const { error } = await supabase
+      .from("Games")
+      .update({
+        players: gameStateData.players,
+      })
+      .eq("room_id", code);
+    if (error) {
+      alert("Error joining room");
+      return;
+    }
+
+    navigateToSelection(code);
+  }
   return (
     <>
       <button
@@ -43,7 +69,7 @@ const JoinModal = ({ displayName }: any) => {
               {/* if there is a button in form, it will close the modal */}
               <button
                 className="btn btn-success w-32 text-base text-white"
-                formAction={() => navigateToSelection(code)}
+                formAction={() => handleContinue(code)}
               >
                 Join
               </button>
