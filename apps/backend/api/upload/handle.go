@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"strconv"
 
@@ -16,7 +15,19 @@ import (
 )
 
 func HandleFileUpload(c *gin.Context) {
+	// load up param
 	roomID := c.Param("roomId")
+	countStr := c.Param("count")
+	count, err := strconv.Atoi(countStr)
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"error": "Invalid count parameter"})
+		return
+	}
+
+	// imagesDir is the directory that will store images of this entire room
+	imagesDir := fmt.Sprintf(`data/%s/images/`, roomID)
+
+	// targetDir is the directory of this room for both pdf and images
 	targetDir := fmt.Sprintf(`data/%s`, roomID)
 	if _, err := os.Stat(targetDir); os.IsNotExist(err) {
 		if err := os.MkdirAll(targetDir, 0755); err != nil {
@@ -24,6 +35,7 @@ func HandleFileUpload(c *gin.Context) {
 			return
 		}
 	}
+
 	form, err := c.MultipartForm()
 	if err != nil {
 		c.String(http.StatusBadRequest, "get form err: %s", err.Error())
@@ -40,14 +52,13 @@ func HandleFileUpload(c *gin.Context) {
 			return
 		}
 
-		imagesDir := fmt.Sprintf(`data/%s/images/%s`, roomID, strings.TrimSuffix(filename, ".pdf"))
 		if contentType == "application/pdf" {
 			files_helper.ExtractImagesFromPDF(imagesDir, filePath)
 		}
 
 	}
 
-	c.String(http.StatusOK, fmt.Sprintf("%d files uploaded!", len(files)))
+	c.IndentedJSON(http.StatusOK, questions.GenerateQuestionsFromImage(count, roomID, imagesDir))
 }
 
 func HandleTextUpload(c *gin.Context) {
