@@ -38,38 +38,6 @@ const chatMessages = [
     username: "GreenHopper",
     avatar: "frog",
   },
-  {
-    id: 4,
-    room_id: 50,
-    message: "Good morning, hope you're well!",
-    time: "2024-04-20 22:47:06",
-    username: "GreenHopper",
-    avatar: "frog",
-  },
-  {
-    id: 4,
-    room_id: 50,
-    message: "Good morning, hope you're well!",
-    time: "2024-04-20 22:47:06",
-    username: "GreenHopper",
-    avatar: "frog",
-  },
-  {
-    id: 4,
-    room_id: 50,
-    message: "Good morning, hope you're well!",
-    time: "2024-04-20 22:47:06",
-    username: "GreenHopper",
-    avatar: "frog",
-  },
-  {
-    id: 4,
-    room_id: 50,
-    message: "Good morning, hope you're well!",
-    time: "2024-04-20 22:47:06",
-    username: "GreenHopper",
-    avatar: "frog",
-  },
 ];
 
 const avatarMap: Record<string, any> = {

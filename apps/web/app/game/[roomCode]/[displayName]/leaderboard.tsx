@@ -43,21 +43,53 @@ const avatarMap: { [key: string]: any } = {
   chicken: chicken,
 };
 
-const sortedUsers = FAKEUSERS.sort((a, b) => b.points - a.points);
+// const sortedUsers = FAKEUSERS.sort((a, b) => b.points - a.points);
 
-export default async function Leaderboard() {
-  const [gameData, setGameData] = useState<any>();
+export default async function Leaderboard({ roomCode }: { roomCode: string }) {
+  const [gameData, setGameData] = useState<any>([]);
+  const [sortedUsers, setSortedUsers] = useState<any>([]);
+
+  useEffect(() => {
+    if (gameData.length === 0) return;
+    setSortedUsers(
+      gameData.players.sort((a: any, b: any) => b.score - a.score)
+    );
+  }, [gameData]);
 
   async function getGameData() {
-    const { data } = await supabase.from("Games").select();
-    setGameData(data);
+    const { data } = await supabase
+      .from("Games")
+      .select("*")
+      .eq("room_id", roomCode);
+    if (data && data.length > 0) {
+      setGameData(data[0]);
+    }
   }
-  console.log(gameData);
+
+  //0YPEM
+
+  // Create a function to handle inserts
+  const handleUpdates = (payload: any) => {
+    // setGameData((prev: any) => {
+    //   payload.new;
+    // });
+    setGameData(payload.new);
+  };
+
+  // Listen to inserts
+  supabase
+    .channel(roomCode)
+    .on(
+      "postgres_changes",
+      { event: "UPDATE", schema: "public", table: "Games" },
+      handleUpdates
+    )
+    .subscribe();
 
   useEffect(() => {
     getGameData();
   }, []);
-  const leaderboardResult = sortedUsers.map((user, index) => (
+  const leaderboardResult = sortedUsers.map((user: any, index: any) => (
     <div
       key={index}
       className="flex items-center justify-between px-4 py-2 rounded-lg bg-[linear-gradient(145deg,_#202c3f,_#1b2535)]"
@@ -68,9 +100,9 @@ export default async function Leaderboard() {
           src={avatarMap[user.avatar]}
           alt={user.avatar}
         />
-        <span className="font-medium">{user.username}</span>
+        <span className="font-medium">{user.name}</span>
       </div>
-      <span className="text-lg font-semibold">{user.points}</span>
+      <span className="text-lg font-semibold">{user.score}</span>
     </div>
   ));
 
