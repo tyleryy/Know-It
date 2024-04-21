@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { navigateToSelection } from './actions'
+import { createClient } from "../../utils/supabase/client";
 
 
 function generateRandomCode(length: number): string {
@@ -14,6 +15,8 @@ function generateRandomCode(length: number): string {
 }
 
 const CreateModal = () => {
+  const supabase = createClient();
+  supabase.from("Games").select().then((data) => console.log(data.data))
   const [code, setCode] = useState("");
 
   return (
