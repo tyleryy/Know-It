@@ -72,7 +72,7 @@ const chatMessages = [
   },
 ];
 
-const avatarMap = {
+const avatarMap: Record<string, any> = {
   dog: dog,
   frog: frog,
   penguin: penguin,
@@ -86,7 +86,7 @@ export default function Chat() {
         {chatMessages.map((chat) => (
           <div key={chat.id} className="chat chat-start">
             <div className="chat-image avatar">
-              <div className="w-10 rounded-full">
+              <div className="w-10 rounded-full`">
                 <Image
                   alt={`${chat.username} avatar`}
                   src={avatarMap[chat.avatar]}
