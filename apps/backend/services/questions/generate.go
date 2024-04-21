@@ -41,3 +41,4 @@ func GenerateQuestionsFromText(count int, roomID string, resources string) *gena
 }
 
 //TODO: GenerateQuestionsFromImage
+// func GenerateQuestionsFromImage(coun)

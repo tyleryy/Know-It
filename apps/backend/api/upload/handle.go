@@ -1,6 +1,7 @@
 package upload
 
 import (
+	files_helper "backend/services/files"
 	"backend/services/questions"
 	"fmt"
 	"io"
@@ -16,8 +17,9 @@ import (
 func HandleFileUpload(c *gin.Context) {
 	roomID := c.Param("roomId")
 	targetDir := fmt.Sprintf(`data/%s`, roomID)
+	imagesDir := fmt.Sprintf(`data/%s/images`, roomID)
 	if _, err := os.Stat(targetDir); os.IsNotExist(err) {
-		if err := os.MkdirAll(targetDir, 0755); err != nil {
+		if err := os.MkdirAll(imagesDir, 0755); err != nil {
 			c.String(http.StatusInternalServerError, "failed to create directory: %s", err.Error())
 			return
 		}
@@ -30,13 +32,19 @@ func HandleFileUpload(c *gin.Context) {
 	// next doesnt need to specify upload[] because next handles multipart form data creation
 	files := form.File["upload[]"] // gets the slices of files uploaded under the key "upload[]" expected to be the name of the file input in the form
 	for _, file := range files {
+		contentType := file.Header.Get("Content-Type")
 		filename := filepath.Base(file.Filename)
-		filePath := filepath.Join(targetDir, filename)
+		filePath := filepath.Join(targetDir, contentType, filename)
 		if err := c.SaveUploadedFile(file, filePath); err != nil {
 			c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
 			return
 		}
+		if contentType == "application/pdf" {
+			files_helper.ExtractImagesFromPDF(imagesDir, filePath, filename)
+		}
+
 	}
+
 	c.String(http.StatusOK, fmt.Sprintf("%d files uploaded!", len(files)))
 }
 
