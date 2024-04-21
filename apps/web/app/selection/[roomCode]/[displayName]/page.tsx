@@ -48,7 +48,7 @@ const NameSelectionPage = ({ params }: PageProps) => {
       return;
     }
 
-    navigateToRoomSetting(params.roomCode);
+    navigateToRoomSetting(params.roomCode, params.displayName);
   };
 
   return (
@@ -94,13 +94,15 @@ const NameSelectionPage = ({ params }: PageProps) => {
           />
         </motion.div>
       </div>
-      <button
-        className="btn btn-success mt-10"
-        onClick={() => handleClick()}
-        disabled={!avatar}
-      >
-        Continue{" "}
-      </button>
+      <form>
+        <button
+          className="btn btn-success mt-10"
+          formAction={() => handleClick()}
+          disabled={!avatar}
+        >
+          Continue{" "}
+        </button>
+      </form>
     </main>
   );
 };
