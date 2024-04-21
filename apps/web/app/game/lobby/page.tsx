@@ -43,11 +43,11 @@ export default LobbyPage;
 const AvatarStack = ({ users }: any) => {
   return (
     <>
-      {users.map((user: any) => {
+      {users.map((user: any, index: number) => {
         return (
           <div key={user.name} className="relative -left-10">
             <Image
-              src={avatarMap[Math.floor(Math.random() * avatarMap.length)]}
+              src={avatarMap[index % avatarMap.length]}
               alt="player avatar"
               height={100}
               width={100}
@@ -78,7 +78,7 @@ const FileUpload = () => {
   const [uploadFile, setUploadFile] = useState<any>(null);
   return (
     <div className="card w-96 shadow-xl bg-white items-center">
-      <div className="p-28 border-dashed border h-full w-80 m-5 border-black items-center text-center">
+      <div className="p-28 border-dashed border h-full w-80 m-5 border-black">
         {files.map((file: any) => {
           return (
             <div key={file.name}>
