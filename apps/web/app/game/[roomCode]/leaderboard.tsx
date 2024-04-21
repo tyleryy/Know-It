@@ -1,5 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl ?? "", supabaseKey ?? "");
+
 import dog from "../../../assets/avatars/dog.svg";
 import frog from "../../../assets/avatars/frog.svg";
 import penguin from "../../../assets/avatars/penguin.svg";
@@ -39,6 +46,17 @@ const avatarMap: { [key: string]: any } = {
 const sortedUsers = FAKEUSERS.sort((a, b) => b.points - a.points);
 
 export default async function Leaderboard() {
+  const [gameData, setGameData] = useState<any>();
+
+  async function getGameData() {
+    const { data } = await supabase.from("Games").select();
+    setGameData(data);
+  }
+  console.log(gameData);
+
+  useEffect(() => {
+    getGameData();
+  }, []);
   const leaderboardResult = sortedUsers.map((user, index) => (
     <div
       key={index}

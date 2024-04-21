@@ -5,7 +5,11 @@ import AiGame from "./aiGame";
 import Chat from "./chat";
 import Countdown from "./countdown";
 
-export default async function Page() {
+interface PageProps {
+  params: any;
+}
+
+export default async function Page({ params }: PageProps) {
   //   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   //   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   //   const supabase = createClient(supabaseUrl, supabaseKey);
