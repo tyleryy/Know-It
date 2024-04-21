@@ -6,7 +6,7 @@ import CatStamp from "../../../../assets/CatStamp.svg";
 import PenguinStamp from "../../../../assets/PenguinStamp.svg";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { navigateToRoomSetting } from "./actions";
+import { navigateToRoomSetting, navigateToWaitingRoom } from "./actions";
 import { createClient } from "../../../../utils/supabase/client";
 
 interface PageProps {
@@ -30,6 +30,7 @@ const NameSelectionPage = ({ params }: PageProps) => {
     let gameStateData = gameState.data[0];
 
     // find player item in array and update avatar
+    let host = gameStateData.host;
     let curr_player = gameStateData.players.find((item: any) => {
       return item.name === params.displayName;
     });
@@ -48,7 +49,12 @@ const NameSelectionPage = ({ params }: PageProps) => {
       return;
     }
 
-    navigateToRoomSetting(params.roomCode, params.displayName);
+    if (host === params.displayName) {
+      navigateToRoomSetting(params.roomCode, params.displayName);
+      return;
+    } else {
+      navigateToWaitingRoom(params.roomCode, params.displayName);
+    }
   };
 
   return (
