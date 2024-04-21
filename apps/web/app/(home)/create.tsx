@@ -22,7 +22,7 @@ const CreateModal = () => {
   return (
     <>
       <button
-        className="btn w-36 text-xl"
+        className="btn btn-lg text-5xl text-white border-2 border-white"
         onClick={() => {
           (
             document.getElementById("my_modal_2") as HTMLDialogElement
@@ -51,7 +51,10 @@ const CreateModal = () => {
           <div className="modal-action">
             <form method="dialog">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-success w-32 text-base text-white" formAction={() => navigateToSelection(code)}>
+              <button
+                className="btn btn-success w-32 text-base text-white"
+                formAction={() => navigateToSelection(code)}
+              >
                 Continue
               </button>
             </form>
