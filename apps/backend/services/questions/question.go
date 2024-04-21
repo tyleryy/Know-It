@@ -11,4 +11,4 @@ type Question struct {
 	Explanation string    `json:"explanation"`
 }
 
-var separator = "------SEPARATOR------"
+// var separator = "------SEPARATOR------"
