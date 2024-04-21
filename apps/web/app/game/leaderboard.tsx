@@ -29,7 +29,7 @@ const FAKEUSERS = [
   },
 ];
 
-const avatarMap = {
+const avatarMap: { [key: string]: any } = {
   dog: dog,
   frog: frog,
   penguin: penguin,
