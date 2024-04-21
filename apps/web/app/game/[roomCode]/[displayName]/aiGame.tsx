@@ -102,7 +102,7 @@ export default async function AiGame({ roomCode }: { roomCode: string }) {
       <div>
         <div className="grid grid-cols-2 gap-7 mt-7">
           {gameQuestions[gameData.curr_question_index]?.answers.map(
-            (answer, index) => (
+            (answer: any, index: any) => (
               <div
                 key={index}
                 className={`btn flex rounded-xl items-center text-lg text-white justify-between px-4 py-4 min-h-32 ${colors[index]}`}
