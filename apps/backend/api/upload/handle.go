@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"strconv"
 
@@ -17,9 +18,8 @@ import (
 func HandleFileUpload(c *gin.Context) {
 	roomID := c.Param("roomId")
 	targetDir := fmt.Sprintf(`data/%s`, roomID)
-	imagesDir := fmt.Sprintf(`data/%s/images`, roomID)
 	if _, err := os.Stat(targetDir); os.IsNotExist(err) {
-		if err := os.MkdirAll(imagesDir, 0755); err != nil {
+		if err := os.MkdirAll(targetDir, 0755); err != nil {
 			c.String(http.StatusInternalServerError, "failed to create directory: %s", err.Error())
 			return
 		}
@@ -39,8 +39,10 @@ func HandleFileUpload(c *gin.Context) {
 			c.String(http.StatusBadRequest, "upload file err: %s", err.Error())
 			return
 		}
+
+		imagesDir := fmt.Sprintf(`data/%s/images/%s`, roomID, strings.TrimSuffix(filename, ".pdf"))
 		if contentType == "application/pdf" {
-			files_helper.ExtractImagesFromPDF(imagesDir, filePath, filename)
+			files_helper.ExtractImagesFromPDF(imagesDir, filePath)
 		}
 
 	}

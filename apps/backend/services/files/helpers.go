@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/gen2brain/go-fitz"
 )
@@ -28,16 +27,16 @@ func GetFileContentType(file *os.File) (string, error) {
 	return contentType, nil
 }
 
-// targetDir is the directory we want to store our images
+// in format of data/roomId/...
+// targetDir is the directory we want to store our images (data/33/images/guidebook)
 // file is the current path to the pdf (data/33/application/pdf/guidebook.pdf)
-// filename is the name of the pdf (guidebook.pdf)
-func ExtractImagesFromPDF(targetDir string, file string, filename string) {
+func ExtractImagesFromPDF(targetDir string, file string) {
 	log.Println("targetDir:", targetDir)
 	log.Println("file:", file)
-	log.Println("filename", filename)
-	filePath := filepath.Join(targetDir, strings.TrimSuffix(filename, ".pdf")) // filePath is the directory that store the new converted images
-	if err := os.MkdirAll(filePath, 0755); err != nil {
-		panic(fmt.Sprintf("Failed to create directory: %s, error: %v", filePath, err))
+
+	// make the targetDir
+	if err := os.MkdirAll(targetDir, 0755); err != nil {
+		panic(fmt.Sprintf("Failed to create directory: %s, error: %v", targetDir, err))
 	}
 
 	doc, err := fitz.New(file)
@@ -53,8 +52,8 @@ func ExtractImagesFromPDF(targetDir string, file string, filename string) {
 			panic(err)
 		}
 
-		f, err := os.Create(filepath.Join(filePath, fmt.Sprintf("img%03d.jpg", n)))
-		log.Println("Created directory:", filepath.Join(filePath, fmt.Sprintf("img%03d.jpg", n)))
+		f, err := os.Create(filepath.Join(targetDir, fmt.Sprintf("img%03d.jpg", n)))
+		log.Println("Created images:", filepath.Join(targetDir, fmt.Sprintf("img%03d.jpg", n)))
 		if err != nil {
 			panic(err)
 		}
@@ -63,7 +62,7 @@ func ExtractImagesFromPDF(targetDir string, file string, filename string) {
 		if err != nil {
 			panic(err)
 		}
-		log.Println("Processing page:", n)
+		log.Println("Processed page:", n)
 		f.Close()
 	}
 }
