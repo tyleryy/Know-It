@@ -34,7 +34,7 @@ const CreateModal = ({ displayName }: any) => {
       alert("Error creating room");
       return;
     }
-    navigateToRoomSetting(code, displayName);
+    navigateToSelection(code, displayName);
   }
 
   return (

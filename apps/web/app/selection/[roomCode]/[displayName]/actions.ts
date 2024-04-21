@@ -9,5 +9,5 @@ export const navigateToWaitingRoom = (code: string, displayName: string) => {
 };
 
 export const navigateToLobby = (code: string, displayName: string) => {
-  redirect(`/game/lobby/${code}/${displayName}`);
+  redirect(`/whiteboard`);
 };
