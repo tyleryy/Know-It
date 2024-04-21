@@ -58,7 +58,7 @@ func HandleFileUpload(c *gin.Context) {
 
 	}
 
-	c.IndentedJSON(http.StatusOK, questions.GenerateQuestionsFromImage(count, roomID, imagesDir))
+	c.JSON(http.StatusOK, questions.GenerateQuestionsFromImage(count, roomID, imagesDir))
 }
 
 func HandleTextUpload(c *gin.Context) {
@@ -75,5 +75,5 @@ func HandleTextUpload(c *gin.Context) {
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, questions.GenerateQuestionsFromText(count, roomID, string((body))))
+	c.JSON(http.StatusOK, questions.GenerateQuestionsFromText(count, roomID, string((body))))
 }
