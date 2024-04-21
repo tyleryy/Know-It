@@ -29,7 +29,7 @@ const JoinModal = ({ displayName }: any) => {
       return;
     }
 
-    navigateToSelection(code);
+    navigateToSelection(code, displayName);
   }
   return (
     <>
