@@ -42,7 +42,7 @@ const LobbyPage = ({ params }: PageProps) => {
   };
 
   // Listen to inserts
-  supabase
+  const room = supabase
     .channel(params.roomCode)
     .on(
       "postgres_changes",
@@ -66,7 +66,6 @@ const LobbyPage = ({ params }: PageProps) => {
 
   useEffect(() => {
     if (gameState) {
-      console.log(gameState);
       if (params.displayName === gameState.host) {
         setIsHost(true);
       }
@@ -82,7 +81,11 @@ const LobbyPage = ({ params }: PageProps) => {
               <AvatarStack users={gameState?.players} />
             </div>
             <div>
-              <FileUpload />
+              <FileUpload
+                gameState={gameState}
+                params={params}
+                supabase={supabase}
+              />
             </div>
           </div>
         </div>
@@ -126,12 +129,29 @@ const AvatarStack = ({ users }: any) => {
   );
 };
 
-const FileUpload = () => {
+const FileUpload = ({ gameState, params, supabase }: any) => {
   const [files, setFiles] = useState<any>([]);
 
-  // useEffect(() => {
-  //   console.log(files);
-  // });
+  useEffect(() => {
+    console.log(files);
+    if (files.length === 0) {
+      console.log("no file to upload");
+      return;
+    }
+    const fileSync = async () => {
+      const { error } = await supabase
+        .from("Games")
+        .update({
+          files: files,
+        })
+        .eq("room_id", params.room_id);
+      if (error) {
+        alert("Error uploading files");
+        return;
+      }
+    };
+    fileSync();
+  }, [files]);
 
   const handleUpload = async () => {
     if (!uploadFile) {
