@@ -94,11 +94,11 @@ export default function Chat() {
                 />
               </div>
             </div>
-            <div className="chat-header">
+            <div className="chat-header text-[#A6ADBB]">
               {chat.username}
               {/* <time className="text-xs opacity-50">
-              {new Date(chat.time).toLocaleTimeString()}
-            </time> */}
+                {new Date(chat.time).toLocaleTimeString()}
+              </time> */}
             </div>
             <div className="chat-bubble text-lg text-white shadow-md">
               {chat.message}

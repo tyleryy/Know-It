@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <html lang="en" className="bg-purple-200 text-black">
+    <html lang="en" className="bg-[#19263F] text-black">
       <body className={twMerge(nunito.className)}>{children}</body>
     </html>
   );
